@@ -32,20 +32,17 @@ Mattermost is an open source Slack-alternative used by thousands of companies ar
    oc apply -f resources/02-channel.yaml
    ``` 
 
-
-6. Run the following command to create a placement rule
-
-   ``` shell
-   oc apply -f resources/03-placement-rule.yaml
-   ```
-
-7. Run the following command to deploy all the requied artifacts for mattermost app
+6. Run the following command to deploy all the requied artifacts for mattermost app
 
   ```shell
-  oc apply -f resources/04-mattermost-deployable.yaml
+  oc apply -f resources/03-mattermost-deployable.yaml
   ```
 
+7. Run the following command to create a placement rule
 
+   ``` shell
+   oc apply -f resources/04-placement-rule.yaml
+   ```
 8. Run the following command on the managed cluster/s
 
    ```shell
