@@ -50,10 +50,5 @@ Mattermost is an open source Slack-alternative used by thousands of companies ar
    ``` shell
    oc apply -f resources/04-placement-rule.yaml
    ```
-9. Run the following command on the managed cluster/s
-
-   ```shell
-   oc apply -f resources/image-policy.yaml
-   ```
 
  
