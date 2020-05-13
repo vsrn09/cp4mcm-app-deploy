@@ -11,44 +11,39 @@ Mattermost is an open source Slack-alternative used by thousands of companies ar
 2. Clone the github repo
 
    ```shell
-   git clone https://github.ibm.com/vsrn09/cp4mcm-app-deploy.gitRun the following command to install create a namespace and create a channel
-
-   ```shell
-   oc apply -f resources/00-application.yaml
-   ```
-   ```
-
+   git clone https://github.ibm.com/vsrn09/cp4mcm-app-deploy.git
+   '''
+   
 3. Run the following command to create an application
 
    ```shell
-   oc apply -f resources/04-app.yaml
+   oc apply -f resources/00-app.yaml
    ```
 
 4. Run the following command to create a subscription rule
 
    ```shell
-   oc apply -f resources/03-subscription.yaml
+   oc apply -f resources/01-subscription.yaml
    ```
 
 5. Run the following command to install create a namespace and create a channel
 
    ```shell
-   oc apply -f resources/00-application.yaml
+   oc apply -f resources/02-channel.yaml
    ``` 
 
 
 6. Run the following command to create a placement rule
 
    ``` shell
-   oc apply -f resources/02-placement-rule.yaml
+   oc apply -f resources/03-placement-rule.yaml
    ```
 
 7. Run the following command to deploy all the requied artifacts for mattermost app
 
   ```shell
-  oc apply -f resources/01-mattermost-deployable.yaml
+  oc apply -f resources/04-mattermost-deployable.yaml
   ```
-
 
 
 8. Run the following command on the managed cluster/s
