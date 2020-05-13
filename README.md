@@ -6,7 +6,7 @@ Mattermost is an open source Slack-alternative used by thousands of companies ar
 
    ```shell
    oc login --token=<your_token> --server=<https://c107-e.us-south.containers.cloud.ibm.com:32613>
-   ```
+  '''
 
 2. Clone the github repo
 
