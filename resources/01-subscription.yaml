@@ -1,0 +1,14 @@
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  name: mattermost-sub
+  namespace: mm-app
+  labels:
+    app: mattermost-app
+spec:
+  channel: mm-channel/mm-channel
+  placement:
+     placementRef:
+      name: mattermostrule
+      kind: PlacementRule
+      group: app.ibm.com
