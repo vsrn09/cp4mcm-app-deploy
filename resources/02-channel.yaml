@@ -1,0 +1,11 @@
+# Create a Namespace to hold the Channel
+apiVersion: app.ibm.com/v1alpha1
+kind: Channel
+metadata:
+  name: mm-channel
+  namespace: mm-channel
+spec:  
+    sourceNamespaces:
+      - mm-channel
+    type: Namespace
+    pathname: mm-channel
