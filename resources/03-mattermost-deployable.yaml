@@ -1,16 +1,19 @@
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
-  labels: 
+  labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: postgresql-pvc-deploy-110
   namespace: mm-channel
 spec:
-  template:   
+  template:
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
@@ -18,24 +21,27 @@ spec:
     spec:
       accessModes:
         - ReadWriteOnce
-      resources:
+        resources:
         requests:
           storage: 20Gi
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
-  labels: 
+  labels:
     package: app
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: postgresql-deploy-110
-  namespace: mm-channel   
+  namespace: mm-channel
 spec:
   template:
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       annotations:
@@ -78,7 +84,7 @@ spec:
                   secretKeyRef:
                     name: postgresql
                     key: database-user
-              - name: POSTGRESQL_PASSWORD
+                    - name: POSTGRESQL_PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: postgresql
@@ -99,7 +105,7 @@ spec:
               successThreshold: 1
               failureThreshold: 3
             readinessProbe:
-              exec:
+            exec:
                 command:
                   - /usr/libexec/check-container
               initialDelaySeconds: 5
@@ -120,7 +126,7 @@ spec:
                 name: service
             volumeMounts:
               - name: postgresql-data
-                mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql/data
                 readOnly: false
           dnsPolicy: ClusterFirst
           restartPolicy: Always
@@ -128,21 +134,24 @@ spec:
           serviceAccount: mattermost
           serviceAccountName: mattermost
           securityContext: {}
-          terminationGracePeriodSeconds: 30 
+          terminationGracePeriodSeconds: 30
           volumes:
             - name: postgresql-data
               persistentVolumeClaim:
                 claimName: postgresql-pvc
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+  apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: postgresql-secret-110
   generateName: postgresql-secret-
   namespace: mm-channel
@@ -159,17 +168,20 @@ spec:
         app: postgresql
         release: postgresql
       name: postgresql
-    type: Opaque
+      type: Opaque
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: mattermost-service-account-110
   generateName: mattermost-service-account-
   namespace: mm-channel
@@ -177,18 +189,21 @@ spec:
   template:
     apiVersion: v1
     kind: ServiceAccount
-    metadata: 
-      name: mattermost
+metadata:
+  name: mattermost
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: mattermost-cluster-role-110
   generateName: mattermost-cluster-role-
   namespace: mm-channel
@@ -210,15 +225,18 @@ spec:
       verbs:
       - '*'
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: mattermost-cluster-role-binding-110
   generateName: mattermost-cluster-role-binding-
   namespace: mm-channel
@@ -236,45 +254,24 @@ spec:
       kind: ClusterRole
       name: mattermost
       apiGroup: rbac.authorization.k8s.io
-#---
-# apiVersion: app.ibm.com/v1alpha1
-# kind: Deployable
-# metadata:
-#   labels:
-#     package: config
-#     app: mattermost
-#   annotations:
-#     app.ibm.com/is-local-deployable: "false"
-#     app.ibm.com/deployable-version: "1.1.0"
-#   name: mattermost-cluster-image-policy-110
-#   generateName: mattermost-cluster-image-policy-
-#   namespace: mm-channel
-# spec:
-#   template:
-#     apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
-#     kind: ClusterImagePolicy
-#     metadata:
-#       name: mattermost-sub
-#     spec:
-#       repositories:
-#         # allow all images
-#         - name: "*"
-#           policy:
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
-  labels: 
+  labels:
     package: app
     application: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: mattermost-deploy
   namespace: mm-channel
 spec:
-  template:
-    apiVersion: extensions/v1beta1
+template:
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       annotations:
@@ -309,12 +306,6 @@ spec:
             imagePullPolicy: IfNotPresent
             env:
               - name: MM_SQLSETTINGS_DRIVERNAME
-                value: postgres
-              - name: DB_HOST
-                valueFrom:
-                  configMapKeyRef:
-                    name: mattermost
-                    key: database-host
               - name: DB_PORT_NUMBER
                 valueFrom:
                   configMapKeyRef:
@@ -336,7 +327,8 @@ spec:
                     name: postgresql-mattermost
                     key: database-name
               - name: MM_SQLSETTINGS_DATASOURCE
-                value: postgres://$(MM_USERNAME):$(MM_PASSWORD)@$(DB_HOST):$(DB_PORT_NUMBER)/$(MM_DBNAME)?sslmode=disable&connect_timeout=10
+                value: postgres://$(MM_USERNAME):$(MM_PASSWORD)@$(DB_HOST):$(DB_
+PORT_NUMBER)/$(MM_DBNAME)?sslmode=disable&connect_timeout=10
             livenessProbe:
               failureThreshold: 3
               httpGet:
@@ -385,15 +377,18 @@ spec:
           - emptyDir: {}
             name: mattermost-config-dir
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: mattermost-configmap-app-110
   namespace: mm-channel
   generateName: mattermost-configmap-app
@@ -411,15 +406,18 @@ spec:
       database-name: mattermost
       database-port: '5432'
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: postgresql-mattermost-secret-110
   generateName: postgresql-mattermost-secret-
   namespace: mm-channel
@@ -438,15 +436,18 @@ spec:
       name: postgresql-mattermost
     type: Opaque
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: mattermost-service-110
   namespace: mm-channel
   generateName: mattermost-service
@@ -456,7 +457,7 @@ spec:
     kind: Service
     metadata:
       labels:
-        app: mattermost 
+        app: mattermost
         release: mattermost
       name: mattermost-svc
     spec:
@@ -473,15 +474,18 @@ spec:
       sessionAffinity: None
       type: NodePort
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: mattermost-route-110
   namespace: mm-channel
 spec:
@@ -503,15 +507,18 @@ spec:
         targetPort: 8065
       wildcardPolicy: None
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   labels:
     package: config
     app: mattermost-app
   annotations:
-    app.ibm.com/is-local-deployable: "false"
-    app.ibm.com/deployable-version: "1.1.0"
+    apps.open-cluster-management.io/is-local-deployable: "false"
+    apps.open-cluster-management.io/deployable-version: "1.0.0"
+    apps.open-cluster-management.io/channel: mm-channel
+    apps.open-cluster-management.io/channel-type: Namespace
+    apps.open-cluster-management.io/deployables: "true"
   name: postgresql-service-110
   namespace: mm-channel
   generateName: postgresql-service
@@ -530,8 +537,16 @@ spec:
         port: 5432
         protocol: TCP
         targetPort: 5432
-      selector:
+        selector:
         app: postgresql
         release: postgresql
       sessionAffinity: None
       type: ClusterIP
+
+
+                value: postgres
+              - name: DB_HOST
+                valueFrom:
+                  configMapKeyRef:
+                    name: mattermost
+                    key: database-host
