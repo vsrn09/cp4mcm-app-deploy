@@ -4,7 +4,6 @@ metadata:
   name: mattermostrule
   namespace: mm-app
   labels:
-    name: mattermostrule
     app: mattermost-app
 spec:
   clusterReplicas: 1
