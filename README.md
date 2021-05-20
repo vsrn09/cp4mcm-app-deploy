@@ -5,7 +5,7 @@ Mattermost is an open source Slack-alternative used by thousands of companies ar
 1. Login to your OpenShift environment by copying your login credentials from the Openshift UI.
 
    ```shell
-   oc login --token=<your_token> --server=<https://c107-e.us-south.containers.cloud.ibm.com:32613>
+   oc login --token=<your_token> --server=<>
    ```
 
 2. Crearte mm-chamnnel and mm-app namespaces
